@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: gestion-bancaire-api
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: banque-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: banque-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: banque-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: banque-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: banque-db
+          property: password
+      - key: DB_SSL
+        value: true
+
+databases:
+  - name: banque-db
+    databaseName: banque
+    user: postgres
+    plan: free

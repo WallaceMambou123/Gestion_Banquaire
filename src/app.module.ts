@@ -25,14 +25,14 @@ import { Transaction } from './transaction/entities/transaction.entity';
     
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',       // Adresse du serveur MySQL
-      port: 5432,              // Port MySQL par défaut
-      username: 'postgres',      // Ton nom d'utilisateur MySQL (comme dans application.properties)
-      password: 'Mambou2025!', // Ton mot de passe MySQL
-      database: 'banque',      // Nom de la base de données
-      entities: [Client, Compte, Transaction], // Les tables qu'on gère
-      synchronize: true,       // Crée/met à jour les tables automatiquement (comme ddl-auto=update)
-      
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT || '5432', 10),
+      username: process.env.DB_USERNAME || 'postgres',
+      password: process.env.DB_PASSWORD || 'Mambou2025!',
+      database: process.env.DB_NAME || 'banque',
+      entities: [Client, Compte, Transaction],
+      synchronize: true,
+      ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
     }),
 
     // On inclut les 3 modules fonctionnels
