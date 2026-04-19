@@ -6,6 +6,7 @@
 
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -19,6 +20,15 @@ async function bootstrap() {
       transform: true,       // Convertit automatiquement les types (ex: "1" → 1)
     }),
   );
+
+  // Configuration Swagger
+  const config = new DocumentBuilder()
+    .setTitle('API Gestion Bancaire')
+    .setDescription('API de gestion bancaire - Opérations clients, comptes et transactions')
+    .setVersion('1.0.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   // L'application écoute sur le port 3000
   // → Tu accéderas à l'API via: http://localhost:3000
